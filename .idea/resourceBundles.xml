@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ResourceBundleManager">
+    <file url="file://$PROJECT_DIR$/res/maps/level_big_dense.properties" />
+    <file url="file://$PROJECT_DIR$/res/maps/level_big_sparse.properties" />
+    <file url="file://$PROJECT_DIR$/res/maps/level_small.properties" />
+  </component>
+</project>
