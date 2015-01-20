@@ -5,6 +5,10 @@ import net.betabears.capstone.main.view.states.*;
 import net.betabears.capstone.main.view.structure.StateBasedGame;
 import net.betabears.capstone.main.view.structure.state.GameStateID;
 
+/**
+ * This class initializes the {@link net.betabears.capstone.main.view.structure.StateBasedGame} and registers all States
+ * before starting the first one.
+ */
 public class View extends StateBasedGame {
     public View(GUIScreen screen) {
         super(screen);

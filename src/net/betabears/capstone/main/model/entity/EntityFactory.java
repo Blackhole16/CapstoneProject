@@ -5,6 +5,12 @@ import net.betabears.capstone.main.model.entity.unit.Player;
 import net.betabears.capstone.main.model.entity.unit.StaticEnemy;
 
 public class EntityFactory {
+
+    /**
+     * Creates a new Entity specified by given String
+     * @param id identifying the Entity
+     * @return created Entity
+     */
     public Entity getEntity(String id, int x, int y) {
         switch (id) {
             case "1":

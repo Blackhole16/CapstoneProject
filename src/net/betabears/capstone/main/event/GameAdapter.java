@@ -1,6 +1,5 @@
 package net.betabears.capstone.main.event;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 

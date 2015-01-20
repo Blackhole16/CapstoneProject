@@ -1,6 +1,5 @@
 package net.betabears.capstone.main.model.entity.unit;
 
-import net.betabears.capstone.main.model.Model;
 import net.betabears.capstone.main.model.entity.Entity;
 
 public class Unit extends Entity {

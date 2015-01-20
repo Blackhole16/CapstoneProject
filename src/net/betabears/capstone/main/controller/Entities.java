@@ -20,6 +20,9 @@ import javax.swing.*;
 import java.io.Serializable;
 import java.util.*;
 
+/**
+ * This class is the controller of the Game as it handles all entities
+ */
 public class Entities extends GameAdapter implements Serializable {
     private Map map;
 
@@ -30,6 +33,11 @@ public class Entities extends GameAdapter implements Serializable {
     private Random rand;
     private Model hitBy;
 
+    /**
+     * Creates this controller with from given Properties and Map
+     * @param properties Properties to extract entities from
+     * @param map Map on which to play
+     */
     public Entities(Properties properties, Map map) {
         this.map = map;
         rand = new Random();
@@ -42,9 +50,19 @@ public class Entities extends GameAdapter implements Serializable {
 
         int[] i = new int[1];
         String[][] s = new String[1][];
-        keys.stream().filter(x -> !x.equals("Height") && !x.equals("Width") && ((i[0] = Integer.parseInt(properties.getProperty(x))) > JFrame.DISPOSE_ON_CLOSE || i[0] == WindowConstants.HIDE_ON_CLOSE)).forEach(x -> addModel(entityFactory.getEntity(properties.getProperty(x), Integer.parseInt((s[0] = x.split(","))[0]), Integer.parseInt(s[0][1]))));
+        keys.stream()
+                // remove all non-entitiy entries from the Stream
+                .filter(x -> !x.equals("Height") && !x.equals("Width")
+                        && ((i[0] = Integer.parseInt(properties.getProperty(x))) > JFrame.DISPOSE_ON_CLOSE
+                        || i[0] == WindowConstants.HIDE_ON_CLOSE))
+                // split key and Create Coordinate, then create Model and add it to the correct list
+                .forEach(x -> addModel(entityFactory.getEntity(properties.getProperty(x), Integer.parseInt((s[0] = x.split(","))[0]), Integer.parseInt(s[0][1]))));
     }
 
+    /**
+     * Adds given {@link net.betabears.capstone.main.model.entity.Entity} to the appropriate List
+     * @param e Entity to add
+     */
     private void addModel(Entity e) {
         if (e instanceof Player) {
             player = (Player)e;
@@ -57,15 +75,27 @@ public class Entities extends GameAdapter implements Serializable {
         }
     }
 
+    /**
+     * Move the Player to given Direction
+     * @param d Direction to move to
+     */
     public void movePlayer(Direction d) {
         move(player, d);
     }
 
+    /**
+     * Executes all Enemy Movements
+     */
     public void calcEnemies() {
         dynamicEnemies.stream().filter(a -> !a.equals(hitBy)).forEach(a -> move(a, Direction.values()[rand.nextInt(4)]));
         hitBy = null;
     }
 
+    /**
+     * Moves given Entity to given Direction, processing all Collisions and Actions
+     * @param e Entity to move
+     * @param d Direction to move to
+     */
     public void move(Entity e, Direction d) {
         int x = d == Direction.Left ? e.getX()-1 : d == Direction.Right ? e.getX()+1 : e.getX();
         int y = d == Direction.Up ? e.getY()-1 : d == Direction.Down ? e.getY()+1 : e.getY();
@@ -92,7 +122,6 @@ public class Entities extends GameAdapter implements Serializable {
             } else if (collision instanceof Exit) {
                 Exit exit = (Exit) collision;
                 if (exit.isOpen()) {
-                    // TODO: ADD CHESS
                     gameWon();
                 } else {
                     if (p.getKeys() > 0) {
@@ -108,6 +137,9 @@ public class Entities extends GameAdapter implements Serializable {
         }
     }
 
+    /**
+     * Damages the player and creates a pool of blood
+     */
     private void damagePlayer() {
         if (player.damage(1)) {
             gameLost();
@@ -122,6 +154,12 @@ public class Entities extends GameAdapter implements Serializable {
         map.getField(x,y-1).setBackground(Terminal.Color.RED);
     }
 
+    /**
+     * Tests whether a Field is empty or not
+     * @param x X-Coordinate
+     * @param y Y-Coordinate
+     * @return null if the Field is empty, the Model on the Field otherwise
+     */
     private Model isEmpty(int x, int y) {
         List<Entity> entities = new ArrayList<>(dynamicEnemies);
         entities.addAll(staticEnemies);
@@ -131,19 +169,39 @@ public class Entities extends GameAdapter implements Serializable {
         return (f = map.getField(x, y)) instanceof Wall || f instanceof Door ? f : entities.stream().filter(a -> a.getX() == x && a.getY() == y).findFirst().orElse(null);
     }
 
+    /**
+     *
+     * @return Player
+     */
     public Player getPlayer() {
         return player;
     }
 
+    /**
+     *
+     * @return Map
+     */
     public Map getMap() {
         return map;
     }
 
+    /**
+     * Draws the specified area to the screen
+     * @param screen Screen to draw on
+     * @param fromX X-Start
+     * @param fromY Y-Start
+     * @param toX X-End
+     * @param toY Y-End
+     */
     public void draw(Screen screen, int fromX, int fromY, int toX, int toY) {
         List<Entity> entities = new ArrayList<>(dynamicEnemies);
         entities.addAll(staticEnemies);
         entities.addAll(keys.values());
         entities.add(player);
-        entities.stream().filter(x -> x.getX() >= fromX && x.getX() <= toX && x.getY() >= fromY && x.getY() <= toY).forEach(x -> x.draw(screen, map.getField(x.getX(), x.getY()).getBackground(), fromX, fromY));
+        entities.stream()
+                // removes all Entities from the Stream that are not inside given Area
+                .filter(x -> x.getX() >= fromX && x.getX() <= toX && x.getY() >= fromY && x.getY() <= toY)
+                // draws the rest
+                .forEach(x -> x.draw(screen, map.getField(x.getX(), x.getY()).getBackground(), fromX, fromY));
     }
 }

@@ -7,7 +7,7 @@ public class GameMenuWindow extends Window {
 
     public GameMenuWindow(GameMenu gameMenu) {
         super("Game Menu");
-        addComponent(new Button("Resume", gameMenu::retur));
+        addComponent(new Button("Resume", gameMenu::back));
         addComponent(new Button("Save", gameMenu::save));
         addComponent(new Button("Save and Exit", gameMenu::saveAndExit));
         addComponent(new Button("Help", gameMenu::help));

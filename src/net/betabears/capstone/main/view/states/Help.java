@@ -2,14 +2,14 @@ package net.betabears.capstone.main.view.states;
 
 import com.googlecode.lanterna.gui.GUIScreen;
 import net.betabears.capstone.main.view.structure.StateBasedGame;
+import net.betabears.capstone.main.view.structure.state.GameState;
 import net.betabears.capstone.main.view.structure.state.GameStateID;
 import net.betabears.capstone.main.view.structure.state.State;
-import net.betabears.capstone.main.view.structure.state.SuspendableGameState;
 
 import java.util.Map;
 
 @State(GameStateID.Help)
-public class Help implements SuspendableGameState {
+public class Help implements GameState {
     private GUIScreen screen;
     private StateBasedGame sbg;
 
@@ -22,19 +22,14 @@ public class Help implements SuspendableGameState {
     }
 
     @Override
-    public void suspend() {
-        destroy();
-    }
-
-    @Override
-    public void resume() {}
-
-    @Override
     public void destroy() {
         screen.getActiveWindow().close();
     }
 
-    public void mainMenu() {
-        sbg.enterState(GameStateID.MainMenu);
+    /**
+     * Resumes last State
+     */
+    public void back() {
+        sbg.resumeLastState();
     }
 }

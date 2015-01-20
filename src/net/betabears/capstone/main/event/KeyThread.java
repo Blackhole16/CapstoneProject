@@ -21,6 +21,9 @@ public class KeyThread extends Thread {
         adapter.removeKeyListener(l);
     }
 
+    /**
+     * Checks each 10ms if a Key has been pressed. If so, it notifies all Listeners.
+     */
     @Override
     public void run() {
         while (!interrupted) {

@@ -11,6 +11,6 @@ public class MapChooserWindow extends Window {
         super("Map Chooser");
         MapFactory m = MapFactory.getInstance();
         Arrays.asList(m.getMapNames()).stream().forEach(s -> addComponent(new Button(s, () -> mapChooser.startGame(s))));
-        addComponent(new Button("Back", mapChooser::back));
+        addComponent(new Button("Back", mapChooser::mainMenu));
     }
 }

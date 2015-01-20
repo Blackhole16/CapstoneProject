@@ -4,14 +4,14 @@ import com.googlecode.lanterna.gui.GUIScreen;
 import net.betabears.capstone.main.controller.Entities;
 import net.betabears.capstone.main.io.SaveFactory;
 import net.betabears.capstone.main.view.structure.StateBasedGame;
+import net.betabears.capstone.main.view.structure.state.GameState;
 import net.betabears.capstone.main.view.structure.state.GameStateID;
 import net.betabears.capstone.main.view.structure.state.State;
-import net.betabears.capstone.main.view.structure.state.SuspendableGameState;
 
 import java.util.Map;
 
 @State(GameStateID.SaveGame)
-public class SaveGame implements SuspendableGameState {
+public class SaveGame implements GameState {
     private Map<String, Object> data;
     private GUIScreen screen;
     private StateBasedGame sbg;
@@ -28,18 +28,14 @@ public class SaveGame implements SuspendableGameState {
     }
 
     @Override
-    public void suspend() {
-        destroy();
-    }
-
-    @Override
-    public void resume() {}
-
-    @Override
     public void destroy() {
         screen.getActiveWindow().close();
     }
 
+    /**
+     * Saves the Game to File with given Name and exits the Game if 'Save and Exit' was called.
+     * @param saveName Filename to save in
+     */
     public void save(String saveName) {
         SaveFactory.getInstance().saveEntities(saveName, entities);
         if (data.containsKey("GameMenu.saveAndExit")) {
@@ -48,6 +44,9 @@ public class SaveGame implements SuspendableGameState {
         sbg.resumeLastState();
     }
 
+    /**
+     * Resumes last State
+     */
     public void gameMenu() {
         sbg.resumeLastState();
     }
