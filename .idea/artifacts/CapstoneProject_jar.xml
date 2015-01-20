@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="CapstoneProject:jar">
+    <output-path>$PROJECT_DIR$/</output-path>
+    <root id="archive" name="CapstoneProject.jar">
+      <element id="module-output" name="CapstoneProject" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/carballo.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$APPLICATION_HOME_DIR$/lib/junit-4.11.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$APPLICATION_HOME_DIR$/lib/hamcrest-core-1.3.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$APPLICATION_HOME_DIR$/lib/hamcrest-library-1.3.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/lanterna-2.1.7.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
